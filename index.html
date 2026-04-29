@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Метеоритный дождь</title>
+
     <style>
-        body { margin: 0; overflow: hidden; background: #000; font-family: system-ui, sans-serif; }
-        canvas { display: block; }
+        body {
+            margin: 0; overflow: hidden; background: #000; font-family: system-ui, sans-serif;
+        }
+        canvas {
+            display: block;
+        }
         #hint {
             position: absolute;
             top: 20px;
@@ -32,7 +37,6 @@
         let width, height;
         let mouseX = -1000, mouseY = -1000;
 
-        // 1. Настройка размера холста
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
@@ -40,7 +44,6 @@
         }
         window.addEventListener('resize', resize);
 
-        // 2. Отслеживание позиции курсора
         canvas.addEventListener('mousemove', e => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -49,7 +52,6 @@
             mouseX = -1000; mouseY = -1000;
         });
 
-        // 3. Генерация звёздного неба
         let stars = [];
         function initStars() {
             stars = [];
@@ -64,17 +66,14 @@
             }
         }
 
-        // 4. Класс Метеора
         class Meteor {
             constructor() { this.reset(); }
             
             reset() {
-                // Появляется сверху или слева за пределами экрана
                 const fromTop = Math.random() > 0.5;
                 this.x = fromTop ? Math.random() * width : -80;
                 this.y = fromTop ? -80 : Math.random() * height * 0.6;
                 
-                // Угол падения ~45° с небольшим разбросом
                 this.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.25;
                 this.baseSpeed = 3 + Math.random() * 4;
                 this.speed = this.baseSpeed;
@@ -84,17 +83,14 @@
             }
 
             update() {
-                // Ускорение при наведении (плавный переход не требуется по условию)
                 this.speed = this.hovered ? this.baseSpeed * 2.8 : this.baseSpeed;
                 
                 this.x += Math.cos(this.angle) * this.speed;
                 this.y += Math.sin(this.angle) * this.speed;
 
-                // Запись точек для хвоста
                 this.trail.unshift({x: this.x, y: this.y});
                 if(this.trail.length > this.maxTrail) this.trail.pop();
 
-                // Перезапуск при выходе за границы
                 if(this.x > width + 150 || this.y > height + 150) this.reset();
             }
 
@@ -111,12 +107,11 @@
                 ctx.lineJoin = 'round';
                 ctx.stroke();
 
-                // Основной хвост с затуханием толщины и прозрачности
                 for(let i = 0; i < this.trail.length - 1; i++) {
                     const p1 = this.trail[i];
                     const p2 = this.trail[i+1];
-                    const progress = i / this.trail.length; // 0 у головы, 1 у конца хвоста
-                    const alpha = Math.pow(1 - progress, 2); // Квадратичное затухание для мягкости
+                    const progress = i / this.trail.length;
+                    const alpha = Math.pow(1 - progress, 2);
                     
                     ctx.beginPath();
                     ctx.moveTo(p1.x, p1.y);
@@ -126,24 +121,20 @@
                     ctx.stroke();
                 }
 
-                // Яркая голова метеора
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, 3.5, 0, Math.PI * 2);
                 ctx.fillStyle = '#fff';
                 ctx.shadowColor = this.hovered ? '#ff3300' : '#ffaa33';
                 ctx.shadowBlur = this.hovered ? 30 : 18;
                 ctx.fill();
-                ctx.shadowBlur = 0; // Сброс глобального свечения
+                ctx.shadowBlur = 0;
             }
         }
 
-        // Инициализация пула метеоров
         const meteors = [];
         for(let i = 0; i < 16; i++) meteors.push(new Meteor());
 
-        // 5. Главный цикл анимации
         function animate(time) {
-            // Отрисовка неба (программно, без картинок)
             const grad = ctx.createLinearGradient(0, 0, 0, height);
             grad.addColorStop(0, '#04060f');
             grad.addColorStop(0.7, '#0b1229');
@@ -151,7 +142,6 @@
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, width, height);
 
-            // Мерцающие звёзды
             for(let s of stars) {
                 const flicker = Math.sin(time * s.twinkleSpeed) * 0.35 + 0.65;
                 ctx.beginPath();
@@ -160,11 +150,9 @@
                 ctx.fill();
             }
 
-            // Обновление состояния наведения и отрисовка
             for(let m of meteors) {
                 m.hovered = false;
                 const hitRadius = 40;
-                // Проверяем расстояние от курсора до каждой точки хвоста
                 for(let p of m.trail) {
                     if(Math.hypot(p.x - mouseX, p.y - mouseY) < hitRadius) {
                         m.hovered = true;
@@ -178,7 +166,6 @@
             requestAnimationFrame(animate);
         }
 
-        // Запуск
         resize();
         requestAnimationFrame(animate);
     </script>
