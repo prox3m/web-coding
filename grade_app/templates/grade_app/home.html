@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Успеваемость студентов</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+    <div class="container bg-white p-4 rounded shadow">
+        <h2 class="mb-4">📊 Управление данными успеваемости</h2>
+        
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert alert-{{ msg.tags|default:'info' }}">{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <h4>➕ Ввести данные</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" name="save_data" class="btn btn-primary">Сохранить в файл</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h4>📤 Загрузить файл</h4>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Выберите JSON/XML</label>
+                        <input type="file" name="file" class="form-control" accept=".json,.xml" required>
+                    </div>
+                    <button type="submit" name="upload_file" class="btn btn-success">Загрузить на сервер</button>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <a href="{% url 'file_list' %}" class="btn btn-outline-dark">📋 Просмотреть все файлы</a>
+    </div>
+</body>
+</html>
