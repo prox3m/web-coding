@@ -22,3 +22,13 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
+
+
+## 🧪 Тестирование
+Проект покрыт комплексными тестами (модели, API, админка, безопасность, интеграция).
+```bash
+# Запуск всех тестов
+python manage.py test tests
+
+# Запуск с подробным выводом и покрытием (опционально)
+python manage.py test tests -v 2
