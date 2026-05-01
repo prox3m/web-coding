@@ -1,0 +1,9 @@
+.env
+*.sqlite3
+/docker-compose.override.yml
+/staticfiles/
+/media/
+/data/logs/
+__pycache__/
+*.pyc
+*.egg-info/
