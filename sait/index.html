@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Арканоид</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Howler.js - сторонняя библиотека для звука -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="gameCanvas"></canvas>
+    
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+      <div class="hud-item">🏆 <span id="score">0</span></div>
+      <div class="hud-item">⏱️ <span id="timer">00:00</span></div>
+      <div class="hud-item">📊 Уровень: <span id="level">1</span></div>
+    </div>
+
+    <!-- Стартовый экран -->
+    <div id="startScreen" class="overlay">
+      <h1>АРКАНОИД</h1>
+      <input type="text" id="playerName" placeholder="Ваше имя" maxlength="15" autocomplete="off">
+      <div id="nameError" class="error hidden">Имя: 2-15 символов, буквы/цифры/пробелы</div>
+      <button id="btnPlay">Играть</button>
+      <button id="btnTutorial">📖 Как играть</button>
+      
+      <div class="difficulty-select modern">
+        <label class="diff-option easy">
+          <input type="radio" name="diff" value="easy" checked> <span>😌 Лёгкий</span>
+        </label>
+        <label class="diff-option medium">
+          <input type="radio" name="diff" value="medium"> <span>⚡ Средний</span>
+        </label>
+        <label class="diff-option hard">
+          <input type="radio" name="diff" value="hard"> <span>🔥 Сложный</span>
+        </label>
+      </div>
+
+      <!-- Таблица лидеров -->
+      <div class="leaderboard-preview">
+        <h3>🏆 Лучшие игроки</h3>
+        <ul id="leaderboardList"></ul>
+      </div>
+    </div>
+
+    <!-- Туториал -->
+    <div id="tutorialModal" class="overlay hidden">
+      <h2>Правила игры</h2>
+      <ul>
+        <li>🖱️/👆 Перетаскивайте платформу мышкой или пальцем</li>
+        <li>⌨️ Или используйте ← → / A D</li>
+        <li>🧱 Разбивайте блоки, не давайте шару упасть</li>
+        <li>🎁 Ловите бонусы: широкая платформа, замедление, разделение шаров</li>
+        <li>🎁 Секрет: <kbd>↑ ↑ ↓ ↓ ← → ← → B A</kbd> → режим "Флаппи-шар"</li>
+      </ul>
+      <button id="btnCloseTutorial">Понятно</button>
+    </div>
+
+    <!-- Game Over / Win -->
+    <div id="endScreen" class="overlay hidden">
+      <h2 id="endTitle">Конец игры</h2>
+      <p>Очки: <span id="finalScore">0</span></p>
+      <button id="btnRestart">В меню</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
