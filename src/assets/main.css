@@ -1,0 +1,81 @@
+/* Кастомизация Bootstrap + адаптивность */
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+body {
+  background: #f8f9fa;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.joke-card {
+  background: white;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+.joke-card:hover {
+  transform: translateY(-3px);
+}
+
+.setup-text {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.punchline-text {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  font-style: italic;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.btn-speak {
+  background: var(--primary-gradient);
+  border: none;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  transition: all 0.2s;
+}
+
+.btn-speak:hover:not(:disabled) {
+  transform: scale(1.03);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-speak:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.about-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.error-alert {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .setup-text { font-size: 1.2rem; }
+  .punchline-text { font-size: 1.1rem; }
+  .container { padding: 1rem; }
+}
